@@ -52,7 +52,7 @@ public class RecipeServiceImplTest {
     }
 
     @Test
-    public void getRecipes() throws Exception {
+    public void getRecipesTest() throws Exception {
 
         Recipe recipe = new Recipe();
         HashSet recipesData = new HashSet();
@@ -65,6 +65,16 @@ public class RecipeServiceImplTest {
         assertEquals(1, recipes.size());
 
         verify(recipeRepository, times(1)).findAll();
+    }
+
+    @Test
+    public void deleteById() {
+        Long intToDelete = Long.valueOf(2L);
+        recipeService.deleteById(intToDelete);
+
+        verify(recipeRepository, times(1)).deleteById(anyLong());
+        ;
+
     }
 
 }
