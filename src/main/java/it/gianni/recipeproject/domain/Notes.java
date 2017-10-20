@@ -1,10 +1,7 @@
 package it.gianni.recipeproject.domain;
 
-import lombok.*;
-
 import javax.persistence.*;
 
-@Data
 @Entity
 public class Notes {
 
@@ -16,4 +13,30 @@ public class Notes {
     @Lob
     private String recipeNotes;
 
+    public Notes() {
+    }
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Recipe getRecipe() {
+        return this.recipe;
+    }
+
+    public void setRecipe(Recipe recipe) {
+        this.recipe = recipe;
+    }
+
+    public String getRecipeNotes() {
+        return this.recipeNotes;
+    }
+
+    public void setRecipeNotes(String recipeNotes) {
+        this.recipeNotes = recipeNotes;
+    }
 }
