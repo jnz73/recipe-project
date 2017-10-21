@@ -3,6 +3,9 @@ package it.gianni.recipeproject.controllers;
 import it.gianni.recipeproject.commands.IngredientCommand;
 import it.gianni.recipeproject.commands.RecipeCommand;
 import it.gianni.recipeproject.commands.UnitOfMeasureCommand;
+import it.gianni.recipeproject.domain.Ingredient;
+import it.gianni.recipeproject.domain.Recipe;
+import it.gianni.recipeproject.repositories.RecipeRepository;
 import it.gianni.recipeproject.services.IngredientService;
 import it.gianni.recipeproject.services.RecipeService;
 import it.gianni.recipeproject.services.UnitOfMeasureService;
@@ -10,6 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @Slf4j
 @Controller
@@ -77,5 +82,15 @@ public class IngredientController {
         log.debug("saved ingredient id:" + savedCommand.getId());
 
         return "redirect:/recipe/" + savedCommand.getRecipeId() + "/ingredient/" + savedCommand.getId() + "/show";
+    }
+
+    @PostMapping
+    @RequestMapping("/recipe/{recipeId}/ingredient/{id}/delete")
+    public String deleteIngredient(@PathVariable String recipeId, @PathVariable String id) {
+
+        ingredientService.deleteById(Long.valueOf(recipeId), Long.valueOf(id));
+
+
+        return "redirect:/recipe/" + recipeId + "/ingredients";
     }
 }
