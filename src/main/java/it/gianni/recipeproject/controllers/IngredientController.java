@@ -1,6 +1,8 @@
 package it.gianni.recipeproject.controllers;
 
 import it.gianni.recipeproject.commands.IngredientCommand;
+import it.gianni.recipeproject.commands.RecipeCommand;
+import it.gianni.recipeproject.commands.UnitOfMeasureCommand;
 import it.gianni.recipeproject.services.IngredientService;
 import it.gianni.recipeproject.services.RecipeService;
 import it.gianni.recipeproject.services.UnitOfMeasureService;
@@ -37,6 +39,23 @@ public class IngredientController {
     public String showRecipeIngredient(@PathVariable String recipeId, @PathVariable String id, Model model) {
         model.addAttribute("ingredient", ingredientService.findByRecipeIdAndIngredientId(Long.valueOf(recipeId), Long.valueOf(id)));
         return "recipe/ingredient/show";
+    }
+
+    @GetMapping
+    @RequestMapping("/recipe/{recipeId}/ingredient/new")
+    public String newRecipe(@PathVariable String recipeId, Model model) {
+        //check id value
+        RecipeCommand recipeCommand = recipeService.findCommandById(Long.valueOf(recipeId));
+        //TODO exception if null
+
+        IngredientCommand ingredientCommand = new IngredientCommand();
+        ingredientCommand.setRecipeId(Long.valueOf(recipeId));
+        model.addAttribute("ingredient", ingredientCommand);
+
+        ingredientCommand.setUom(new UnitOfMeasureCommand());
+        model.addAttribute("uomList", unitOfMeasureService.listAllUoms());
+
+        return "recipe/ingredient/ingredientform";
     }
 
     @GetMapping
