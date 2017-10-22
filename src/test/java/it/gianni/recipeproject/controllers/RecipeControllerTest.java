@@ -1,5 +1,6 @@
 package it.gianni.recipeproject.controllers;
 
+import it.gianni.recipeproject.exceptions.NotFounException;
 import it.gianni.recipeproject.commands.RecipeCommand;
 import it.gianni.recipeproject.domain.Recipe;
 import it.gianni.recipeproject.services.RecipeService;
@@ -52,6 +53,16 @@ public class RecipeControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("recipe/show"))
                 .andExpect(model().attributeExists("recipe"));
+    }
+
+    @Test
+    public void testGetRecipeNotFound() throws Exception {
+        Recipe recipe = new Recipe();
+        recipe.setId(1L);
+
+        when(recipeService.findById(anyLong())).thenThrow(NotFounException.class);
+
+        mockMvc.perform(get("/recipe/1/show")).andExpect(status().isNotFound());
     }
 
     @Test

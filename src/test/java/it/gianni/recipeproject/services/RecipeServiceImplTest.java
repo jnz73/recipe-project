@@ -1,5 +1,6 @@
 package it.gianni.recipeproject.services;
 
+import it.gianni.recipeproject.exceptions.NotFounException;
 import it.gianni.recipeproject.converters.RecipeCommandToRecipe;
 import it.gianni.recipeproject.converters.RecipeToRecipeCommand;
 import it.gianni.recipeproject.domain.Recipe;
@@ -36,6 +37,13 @@ public class RecipeServiceImplTest {
         MockitoAnnotations.initMocks(this);
 
         recipeService = new RecipeServiceImpl(recipeRepository, recipeCommandToRecipe, recipeToRecipeCommand);
+    }
+
+    @Test(expected = NotFounException.class)
+    public void getRecipeByIdTestNotFound() throws Exception {
+        Optional<Recipe> recipeOptional = Optional.empty();
+        when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
+        Recipe recipeReturned = recipeService.findById(1L);
     }
 
     @Test
