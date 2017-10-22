@@ -1,6 +1,6 @@
 package it.gianni.recipeproject.services;
 
-import it.gianni.recipeproject.exceptions.NotFounException;
+import it.gianni.recipeproject.exceptions.NotFoundException;
 import it.gianni.recipeproject.commands.RecipeCommand;
 import it.gianni.recipeproject.converters.RecipeCommandToRecipe;
 import it.gianni.recipeproject.converters.RecipeToRecipeCommand;
@@ -41,7 +41,7 @@ public class RecipeServiceImpl implements RecipeService {
     public Recipe findById(Long l) {
         Optional<Recipe> recipeOptional = recipeRepository.findById(l);
         if (!recipeOptional.isPresent()) {
-            throw new NotFounException("Recipe Not Found for ID value: " + l.toString());
+            throw new NotFoundException("Recipe Not Found for ID value: " + l.toString());
         }
 
         return recipeOptional.get();

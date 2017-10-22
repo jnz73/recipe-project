@@ -1,7 +1,7 @@
 package it.gianni.recipeproject.controllers;
 
 import it.gianni.recipeproject.commands.RecipeCommand;
-import it.gianni.recipeproject.exceptions.NotFounException;
+import it.gianni.recipeproject.exceptions.NotFoundException;
 import it.gianni.recipeproject.services.RecipeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -54,13 +54,25 @@ public class RecipeController {
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(NotFounException.class)
+    @ExceptionHandler(NotFoundException.class)
     public ModelAndView handleNotFound(Exception e) {
         log.error("Handling not found error");
         log.error(e.getMessage());
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("404error");
+        modelAndView.addObject("exception", e);
+        return modelAndView;
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(NumberFormatException.class)
+    public ModelAndView handleBadRequest(Exception e) {
+        log.error("Bad input format error");
+        log.error(e.getMessage());
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("400error");
         modelAndView.addObject("exception", e);
         return modelAndView;
     }

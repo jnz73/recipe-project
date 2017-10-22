@@ -1,6 +1,6 @@
 package it.gianni.recipeproject.services;
 
-import it.gianni.recipeproject.exceptions.NotFounException;
+import it.gianni.recipeproject.exceptions.NotFoundException;
 import it.gianni.recipeproject.converters.RecipeCommandToRecipe;
 import it.gianni.recipeproject.converters.RecipeToRecipeCommand;
 import it.gianni.recipeproject.domain.Recipe;
@@ -39,7 +39,7 @@ public class RecipeServiceImplTest {
         recipeService = new RecipeServiceImpl(recipeRepository, recipeCommandToRecipe, recipeToRecipeCommand);
     }
 
-    @Test(expected = NotFounException.class)
+    @Test(expected = NotFoundException.class)
     public void getRecipeByIdTestNotFound() throws Exception {
         Optional<Recipe> recipeOptional = Optional.empty();
         when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
